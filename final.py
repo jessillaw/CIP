@@ -1,5 +1,6 @@
 import time
 from datetime import datetime
+import pytz #for timezone
 
 #Timesheet selections 
 # 1 - Clock-in
@@ -9,12 +10,12 @@ from datetime import datetime
 
 def clock_in():
     Timecard_file = open('timecard.txt', 'a')
-    now = datetime.now()
-    local = time.localtime()
     #print(file)
-    current_date = now.strftime("%Y-%m-%d")
-    clock_in = time.strftime("%H:%M:%S",local)
-    #clock_in = now.strftime("%H:%M:%S")
+    tz_LA = pytz.timezone('America/Los_Angeles')
+    datetime_LA = datetime.now(tz_LA)
+    current_date = datetime_LA.strftime("%Y-%m-%d")
+    clock_in = datetime_LA.strftime("%H:%M:%S")
+    
 
     Timecard_file.write(current_date + " ")
     Timecard_file.write(clock_in)
@@ -26,16 +27,18 @@ def clock_in():
 def start_break():
     Timecard_file = open('timecard.txt', 'a')
 
-    now = datetime.now()
-    #print(file)
-    current_date = now.strftime("%Y-%m-%d")
-    start_break = now.strftime("%H:%M:%S")
+    tz_LA = pytz.timezone('America/Los_Angeles')
+    datetime_LA = datetime.now(tz_LA)
+    current_date = datetime_LA.strftime("%Y-%m-%d")
+    start_break = datetime_LA.strftime("%H:%M:%S")
 
     Timecard_file.write(current_date + " ")
     Timecard_file.write(start_break)
 
     print("Date:",current_date)
     print("Break started at:",start_break)
+    #convert start_break time to seconds to a variable and subtract from it
+    # print ("Return to work at")
 
     Timecard_file.close()
 
@@ -43,10 +46,11 @@ def start_break():
 def end_break():
     Timecard_file = open('timecard.txt', 'a')
 
-    now = datetime.now()
     #print(file)
-    current_date = now.strftime("%Y-%m-%d")
-    end_break = now.strftime("%H:%M:%S")
+    tz_LA = pytz.timezone('America/Los_Angeles')
+    datetime_LA = datetime.now(tz_LA)
+    current_date = datetime_LA.strftime("%Y-%m-%d")
+    end_break = datetime_LA.strftime("%H:%M:%S")
 
     Timecard_file.write(current_date + " ")
     Timecard_file.write(end_break)
@@ -58,7 +62,19 @@ def end_break():
 
 def clock_out():
      
-     Timecard_file = open(timecard.txt, 'a')
+    Timecard_file = open('timecard.txt', 'a')
+    #print(file)
+    tz_LA = pytz.timezone('America/Los_Angeles')
+    datetime_LA = datetime.now(tz_LA)
+    current_date = datetime_LA.strftime("%Y-%m-%d")
+    clock_out = datetime_LA.strftime("%H:%M:%S")
+      
+
+    Timecard_file.write(current_date + " ")
+    Timecard_file.write(clock_out)
+
+    print("Date:",current_date)
+    print("Clocked out at:",clock_out)
 
 
 print("Enter a selection:")
@@ -66,16 +82,39 @@ select = input()
 
 
 if select == "1":
-       print("clock_in")
        clock_in()
 elif select == "2":
-       print("start_break")
        start_break()
 elif select == "3":
-        print("end_break")
         end_break()
 elif select == "4":
-        print("clock_out")
         clock_out()
 else:
         print("INVALID SELECTION")
+
+
+
+# def countdown(t):
+#     while t >=0:
+#       hour = t * 60
+#       mins = t // 60
+#       sec = t % 60
+#       timer = '{02d}:{02d}:{02d}'.format(hour,mins,secs)
+#       time.sleep(1) #waits 1 sec before starts, decrement by 1 each time.
+#       t -= 1
+#       print("Return to work",)
+
+
+# ----- OR-----
+
+# while t >=0:
+#     # in seconds
+#     hour = t * 60 
+#     mins = t // 60
+#     secs = t % 60
+#     countdown = '{:02d}:{:02d}:{:02d}'.format(hour,mins,secs)
+#     print(countdown, end="\r") #overwrite previous line?
+#     time.sleep(1)
+#     t -= 1 
+#     print("Return to work at:",start_break)
+    #print(file)
